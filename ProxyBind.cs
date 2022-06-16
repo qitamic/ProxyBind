@@ -178,8 +178,8 @@ namespace ProxyBind
 
 			if (bStarted)
 			{
-				Utils.Execute("taskkill /f /pid " + iPid3proxy);
-				Utils.Execute("taskkill /f /pid " + iPidUdpfwdc);
+				Utils.ProcessKill(iPid3proxy);
+				Utils.ProcessKill(iPidUdpfwdc);
 			}
 			else
 			{

@@ -93,6 +93,7 @@ namespace ProxyBind
 			cLog.Log("sProgram=" + proc.StartInfo.FileName);
 			cLog.Log("sArgs=" + proc.StartInfo.Arguments);
 			cLog.Log("bWaitForExit=" + bWaitForExit);
+			cLog.Log("Pid=" + proc.Id + "\n");
 
 			if (bWaitForExit) proc.WaitForExit();
 
@@ -122,6 +123,25 @@ namespace ProxyBind
 
 				return file.ToArray();
 			}
+		}
+
+		//kill pricess
+		public static bool ProcessExist(int iPid)
+		{
+			Process[] pProcessList = Process.GetProcesses();
+			int[] iPidList = new int[pProcessList.Length];
+			for (int i = 0; i < pProcessList.Length; i++)
+				iPidList[i] = pProcessList[i].Id;
+
+			return iPidList.Contains(iPid);
+		}
+		public static void ProcessKill(int iPid)
+		{
+			do
+			{
+				Execute("taskkill.exe", "/f /pid " + iPid, true);
+				Thread.Sleep(100);
+			} while (ProcessExist(iPid));
 		}
 	}
 }
